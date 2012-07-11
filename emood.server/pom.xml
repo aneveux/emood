@@ -10,7 +10,7 @@
 		<artifactId>emood</artifactId>
 	</parent>
 
-	<artifactId>emoodserver</artifactId>
+	<artifactId>emood.server</artifactId>
 	<packaging>war</packaging>
 
 	<build>
