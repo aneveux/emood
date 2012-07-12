@@ -5,7 +5,9 @@ Bundle-SymbolicName: fr.antoineneveux.emood.plugin;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Activator: fr.antoineneveux.emood.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.ui.views,
+ org.eclipse.e4.ui.css.swt
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Antoine Neveux
