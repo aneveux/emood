@@ -14,24 +14,27 @@ public class People {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public People setId(String id) {
 		this.id = id;
+		return this;
 	}
 
 	public String getName() {
 		return this.name;
 	}
 
-	public void setName(String name) {
+	public People setName(String name) {
 		this.name = name;
+		return this;
 	}
 
 	public Mood getMood() {
 		return this.mood;
 	}
 
-	public void setMood(Mood mood) {
+	public People setMood(Mood mood) {
 		this.mood = mood;
+		return this;
 	}
 
 }
