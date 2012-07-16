@@ -1,5 +1,7 @@
 package fr.antoineneveux.emood.data;
 
+import java.text.MessageFormat;
+
 public class People {
 
 	private String id;
@@ -35,6 +37,12 @@ public class People {
 	public People setMood(Mood mood) {
 		this.mood = mood;
 		return this;
+	}
+
+	@Override
+	public String toString() {
+		return MessageFormat.format("[{0}] - {1} > {2} ({3})", id, name,
+				mood.toString(), mood.getValue());
 	}
 
 }

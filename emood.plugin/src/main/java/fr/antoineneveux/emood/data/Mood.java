@@ -8,7 +8,8 @@ import fr.antoineneveux.emood.Activator;
 
 public enum Mood {
 
-	HAPPY(1), NEUTRAL(0), SAD(-1),
+	ENTHUSIAST(3), HAPPY(2), CONFIDENT(1), SCEPTICAL(0), UNCERTAIN(-1), TIRED(
+			-2), WORRIED(-3), BAD(-4), CRYING(-5)
 
 	;
 
@@ -24,12 +25,37 @@ public enum Mood {
 
 	public Image getImage() {
 		return Activator.getDefault().getImage(
-				MessageFormat.format("/icons/{0}.png", this.getValue()));
+				MessageFormat.format("/icons/faces/{0}.png", this.toString()
+						.toLowerCase()));
 	}
 
-	public Image getImage(long value) {
-		return Activator.getDefault().getImage(
-				MessageFormat.format("/icons/{0}.png", value));
+	public Image getImage(long value) throws MoodValueNotFoundException {
+		for (Mood m : Mood.values()) {
+			if (m.getValue() == value)
+				return m.getImage();
+		}
+		throw new MoodValueNotFoundException();
+	}
+
+	@SuppressWarnings("serial")
+	static class MoodValueNotFoundException extends Exception {
+
+		public MoodValueNotFoundException() {
+			super();
+		}
+
+		public MoodValueNotFoundException(String msg) {
+			super(msg);
+		}
+
+		public MoodValueNotFoundException(Throwable t) {
+			super(t);
+		}
+
+		public MoodValueNotFoundException(String msg, Throwable t) {
+			super(msg, t);
+		}
+
 	}
 
 }

@@ -3,9 +3,9 @@ package fr.antoineneveux.emood.ui;
 import java.text.MessageFormat;
 
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.jface.viewers.ListViewer;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -20,7 +20,7 @@ import fr.antoineneveux.emood.data.Team;
 
 public class EmoodView extends ViewPart {
 
-	private ListViewer viewer;
+	private TreeViewer viewer;
 
 	public EmoodView() {
 		super();
@@ -54,7 +54,10 @@ public class EmoodView extends ViewPart {
 
 		Action create = new Action() {
 			public void run() {
-				// TODO create
+				String name = new PeopleCreator(EmoodView.this.getSite()
+						.getShell()).getName();
+				DataManager.getInstance().create(name);
+				EmoodView.this.viewer.refresh();
 			}
 		};
 		create.setImageDescriptor(Activator.imageDescriptorFromPlugin(
@@ -64,33 +67,46 @@ public class EmoodView extends ViewPart {
 	}
 
 	protected void createListViewer(Composite parent) {
-		this.viewer = new ListViewer(parent, SWT.BORDER);
+		this.viewer = new TreeViewer(parent, SWT.BORDER);
 		this.viewer.setContentProvider(new EmoodContentProvider());
 		this.viewer.setLabelProvider(new EmoodLabelProvider());
-		//this.viewer.addSelectionChangedListener(null);
+		// this.viewer.addSelectionChangedListener(null);
 		this.viewer.setInput(DataManager.getInstance().getTeam());
 	}
 
-	static class EmoodContentProvider implements IStructuredContentProvider {
+	static class EmoodContentProvider implements ITreeContentProvider {
 
 		@Override
 		public void dispose() {
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-			// TODO Auto-generated method stub
+		}
 
+		@Override
+		public Object[] getChildren(Object parentElement) {
+			if (parentElement instanceof Team)
+				return ((Team) parentElement).getPeople().toArray();
+			return null;
+		}
+
+		@Override
+		public Object getParent(Object element) {
+			return null;
+		}
+
+		@Override
+		public boolean hasChildren(Object element) {
+			return (element instanceof Team)
+					&& ((Team) element).getPeople().size() > 0;
 		}
 
 		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof Team)
 				return ((Team) inputElement).getPeople().toArray();
-			else
-				return null;
+			return null;
 		}
 
 	}
@@ -99,8 +115,10 @@ public class EmoodView extends ViewPart {
 
 		@Override
 		public Image getImage(Object element) {
-			// TODO Auto-generated method stub
-			return null;
+			if (element instanceof People)
+				return ((People) element).getMood().getImage();
+			else
+				return null;
 		}
 
 		@Override
